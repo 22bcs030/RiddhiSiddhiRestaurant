@@ -25,6 +25,11 @@ const GlobalStyles = createGlobalStyle`
     padding: 0;
     box-sizing: border-box;
   }
+  
+  .nowrap {
+    white-space: nowrap !important;
+    overflow: visible !important;
+  }
 
   body {
     font-family: 'Poppins', sans-serif;

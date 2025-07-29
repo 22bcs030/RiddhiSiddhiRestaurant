@@ -46,6 +46,22 @@ const FooterContent = styled.div`
 `;
 
 const FooterSection = styled.div`
+  &#contact {
+    scroll-margin-top: 80px; /* Ensures the section doesn't get hidden under fixed headers */
+    
+    /* Highlight the contact section when it's the target */
+    animation: highlight 2s ease-out;
+    
+    @keyframes highlight {
+      0% { background-color: rgba(255, 215, 0, 0.2); }
+      100% { background-color: transparent; }
+    }
+    
+    @media (max-width: 768px) {
+      order: -1; /* Move contact section to the top on mobile */
+    }
+  }
+
   h3 {
     color: var(--primary-gold);
     margin-bottom: 1.5rem;
@@ -170,23 +186,23 @@ const Footer = () => {
       <DecorationImage className="bottom-right" />
       <div className="container">
         <FooterContent>
-          <FooterSection>
+          <FooterSection id="contact">
             <h3>Contact Us</h3>
-            <p>
-              <FontAwesomeIcon icon={faMapMarkerAlt} />
-              123 Main Street, City, State
+            <p style={{ marginBottom: '15px' }}>
+              <FontAwesomeIcon icon={faMapMarkerAlt} style={{ marginRight: '10px', color: 'var(--primary-gold)' }} />
+              Dandi bazar gola kauriram road gorakhpur
             </p>
-            <p>
-              <FontAwesomeIcon icon={faPhone} />
-              9198666063
+            <p style={{ marginBottom: '15px', fontWeight: 'bold' }}>
+              <FontAwesomeIcon icon={faPhone} style={{ marginRight: '10px', color: 'var(--primary-gold)' }} />
+              <a href="tel:9198666063" style={{ color: 'var(--text-light)', textDecoration: 'none' }}>9198666063</a>
             </p>
-            <p>
-              <FontAwesomeIcon icon={faPhone} />
-              +91 99566 60600
+            <p style={{ marginBottom: '15px', fontWeight: 'bold' }}>
+              <FontAwesomeIcon icon={faPhone} style={{ marginRight: '10px', color: 'var(--primary-gold)' }} />
+              <a href="tel:+919956660600" style={{ color: 'var(--text-light)', textDecoration: 'none' }}>+91 99566 60600</a>
             </p>
-            <p>
-              <FontAwesomeIcon icon={faEnvelope} />
-              info@riddhisiddhi.com
+            <p style={{ marginBottom: '15px' }}>
+              <FontAwesomeIcon icon={faEnvelope} style={{ marginRight: '10px', color: 'var(--primary-gold)' }} />
+              <a href="mailto:info@riddhisiddhi.com" style={{ color: 'var(--text-light)', textDecoration: 'none' }}>info@riddhisiddhi.com</a>
             </p>
           </FooterSection>
           
@@ -222,7 +238,7 @@ const Footer = () => {
             <p>Stay connected with us on social media for updates and offers.</p>
             <SocialIcons>
               <a href="https://facebook.com/" aria-label="Facebook"><FontAwesomeIcon icon={faFacebookF} /></a>
-              <a href="https://instagram.com/" aria-label="Instagram"><FontAwesomeIcon icon={faInstagram} /></a>
+              <a href="https://www.instagram.com/riddhisiddhidairy?igsh=YzBleWYwZzZmMnd2" aria-label="Instagram" target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faInstagram} /></a>
               <a href="https://twitter.com/" aria-label="Twitter"><FontAwesomeIcon icon={faTwitter} /></a>
               <a href="https://youtube.com/" aria-label="YouTube"><FontAwesomeIcon icon={faYoutube} /></a>
             </SocialIcons>
