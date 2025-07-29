@@ -146,7 +146,7 @@ const HeroSection = () => {
     <HeroContainer id="home">
       <HeroContent>
         <GradientTitle>Riddhi Siddhi</GradientTitle>
-        <Subtitle>Experience the Authentic Taste of India</Subtitle>
+        <Subtitle>Dairy Sweets and Bakers</Subtitle>
         <HeroButtons>
           <Button className="primary">View Menu</Button>
           <Button className="secondary">Book a Table</Button>

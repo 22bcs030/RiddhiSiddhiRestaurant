@@ -5,7 +5,4 @@ export const heroImage = 'https://images.unsplash.com/photo-1517248135467-4c7edc
 
 export const interiorImage = 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1074&q=80';
 
-export default {
-  heroImage,
-  interiorImage
-}; 
+// Named exports are used individually, no default export needed; 

@@ -178,7 +178,11 @@ const Footer = () => {
             </p>
             <p>
               <FontAwesomeIcon icon={faPhone} />
-              +91 1234567890
+              9198666063
+            </p>
+            <p>
+              <FontAwesomeIcon icon={faPhone} />
+              +91 99566 60600
             </p>
             <p>
               <FontAwesomeIcon icon={faEnvelope} />
@@ -217,16 +221,16 @@ const Footer = () => {
             <h3>Follow Us</h3>
             <p>Stay connected with us on social media for updates and offers.</p>
             <SocialIcons>
-              <a href="#"><FontAwesomeIcon icon={faFacebookF} /></a>
-              <a href="#"><FontAwesomeIcon icon={faInstagram} /></a>
-              <a href="#"><FontAwesomeIcon icon={faTwitter} /></a>
-              <a href="#"><FontAwesomeIcon icon={faYoutube} /></a>
+              <a href="https://facebook.com/" aria-label="Facebook"><FontAwesomeIcon icon={faFacebookF} /></a>
+              <a href="https://instagram.com/" aria-label="Instagram"><FontAwesomeIcon icon={faInstagram} /></a>
+              <a href="https://twitter.com/" aria-label="Twitter"><FontAwesomeIcon icon={faTwitter} /></a>
+              <a href="https://youtube.com/" aria-label="YouTube"><FontAwesomeIcon icon={faYoutube} /></a>
             </SocialIcons>
           </FooterSection>
         </FooterContent>
         
         <FooterBottom>
-          <p>&copy; {new Date().getFullYear()} Riddhi Siddhi Sweets & Restaurant. All Rights Reserved.</p>
+          <p>&copy; {new Date().getFullYear()} Riddhi Siddhi Dairy Sweets and Bakers. All Rights Reserved.</p>
         </FooterBottom>
       </div>
     </FooterContainer>

@@ -94,7 +94,7 @@ const IntroSection = () => {
       <div className="container">
         <IntroContent>
           <IntroText>
-            <SectionTitle>Welcome to Riddhi Siddhi</SectionTitle>
+            <SectionTitle>Welcome to Riddhi Siddhi Dairy Sweets and Bakers</SectionTitle>
             <p>
               Step into a world of <Highlight>authentic Indian flavors</Highlight> where tradition meets innovation. 
               Our chefs bring generations of culinary expertise to create unforgettable dining experiences.

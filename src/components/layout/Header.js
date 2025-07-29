@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import FestivalBanner from './FestivalBanner';
 import Navbar from './Navbar';
 
 const HeaderContainer = styled.header`
@@ -42,7 +41,6 @@ const Header = ({ fixed = false }) => {
 
   return (
     <HeaderContainer fixed={fixed} scrolled={scrolled}>
-      <FestivalBanner />
       <HeaderContent scrolled={scrolled} className="container">
         <Navbar />
       </HeaderContent>

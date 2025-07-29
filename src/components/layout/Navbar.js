@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { Button } from '../../styles/StyledComponents';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -61,6 +62,8 @@ const NavItem = styled.li`
     font-weight: 500;
     padding: 0.5rem;
     position: relative;
+    text-decoration: none;
+    display: inline-block;
     
     &:after {
       content: '';
@@ -113,8 +116,11 @@ const MobileOverlay = styled.div`
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeLink, setActiveLink] = useState('home');
+  // eslint-disable-next-line no-unused-vars
   const [scrolled, setScrolled] = useState(false);
+  const location = useLocation();
 
+  // Handle scrolling effects
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 50) {
@@ -127,6 +133,15 @@ const Navbar = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  useEffect(() => {
+    // Update active link based on current path
+    if (location.pathname === '/') {
+      setActiveLink('home');
+    } else if (location.pathname === '/menu') {
+      setActiveLink('menu');
+    }
+  }, [location]);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -142,7 +157,7 @@ const Navbar = () => {
       <NavContainer>
         <Logo>
           <h1>Riddhi Siddhi</h1>
-          <p>Sweets & Restaurant</p>
+          <p>Dairy Sweets and Bakers</p>
         </Logo>
         
         <MobileMenuButton onClick={toggleMenu}>
@@ -151,26 +166,26 @@ const Navbar = () => {
         
         <NavLinks isOpen={isMenuOpen}>
           <NavItem>
-            <a 
-              href="#home" 
+            <Link 
+              to="/" 
               className={activeLink === 'home' ? 'active' : ''}
               onClick={() => handleLinkClick('home')}
             >
               Home
-            </a>
+            </Link>
           </NavItem>
           <NavItem>
-            <a 
-              href="#menu" 
+            <Link 
+              to="/menu" 
               className={activeLink === 'menu' ? 'active' : ''}
               onClick={() => handleLinkClick('menu')}
             >
               Menu
-            </a>
+            </Link>
           </NavItem>
           <NavItem>
             <a 
-              href="#about" 
+              href="/#about" 
               className={activeLink === 'about' ? 'active' : ''}
               onClick={() => handleLinkClick('about')}
             >
@@ -179,7 +194,7 @@ const Navbar = () => {
           </NavItem>
           <NavItem>
             <a 
-              href="#specials" 
+              href="/#specials" 
               className={activeLink === 'specials' ? 'active' : ''}
               onClick={() => handleLinkClick('specials')}
             >
@@ -188,7 +203,7 @@ const Navbar = () => {
           </NavItem>
           <NavItem>
             <a 
-              href="#contact" 
+              href="/#contact" 
               className={activeLink === 'contact' ? 'active' : ''}
               onClick={() => handleLinkClick('contact')}
             >
