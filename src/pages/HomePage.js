@@ -3,7 +3,8 @@ import HeroSection from '../components/sections/HeroSection';
 import IntroSection from '../components/sections/IntroSection';
 import FeaturesSection from '../components/sections/FeaturesSection';
 import SeasonalSpecials from '../components/sections/SeasonalSpecials';
-import HoursRatings from '../components/sections/HoursRatings';
+import OpeningHoursSection from '../components/sections/OpeningHoursSection';
+import ReviewsSection from '../components/sections/ReviewsSection';
 import CallToAction from '../components/sections/CallToAction';
 
 const HomePage = () => {
@@ -13,7 +14,8 @@ const HomePage = () => {
       <IntroSection />
       <FeaturesSection />
       <SeasonalSpecials />
-      <HoursRatings />
+      <OpeningHoursSection />
+      <ReviewsSection />
       <CallToAction />
     </main>
   );

@@ -182,42 +182,42 @@ const DecorationImage = styled.div`
 const Footer = () => {
   return (
     <FooterContainer>
-      <DecorationImage className="top-left" />
-      <DecorationImage className="bottom-right" />
-      <div className="container">
+      <DecorationImage className="top-left" aria-hidden="true" role="presentation" />
+      <DecorationImage className="bottom-right" aria-hidden="true" role="presentation" />
+      <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 15px' }}>
         <FooterContent>
           <FooterSection id="contact">
             <h3>Contact Us</h3>
             <p style={{ marginBottom: '15px' }}>
-              <FontAwesomeIcon icon={faMapMarkerAlt} style={{ marginRight: '10px', color: 'var(--primary-gold)' }} />
+              <FontAwesomeIcon icon={faMapMarkerAlt} style={{ marginRight: '10px', color: 'var(--primary-gold)' }} aria-hidden="true" />
               Dandi bazar gola kauriram road gorakhpur
             </p>
             <p style={{ marginBottom: '15px', fontWeight: 'bold' }}>
-              <FontAwesomeIcon icon={faPhone} style={{ marginRight: '10px', color: 'var(--primary-gold)' }} />
-              <a href="tel:9198666063" style={{ color: 'var(--text-light)', textDecoration: 'none' }}>9198666063</a>
+              <FontAwesomeIcon icon={faPhone} style={{ marginRight: '10px', color: 'var(--primary-gold)' }} aria-hidden="true" />
+              <a href="tel:+919198666063" style={{ color: 'var(--text-light)', textDecoration: 'none' }}>+91 9198666063</a>
             </p>
             <p style={{ marginBottom: '15px', fontWeight: 'bold' }}>
-              <FontAwesomeIcon icon={faPhone} style={{ marginRight: '10px', color: 'var(--primary-gold)' }} />
+              <FontAwesomeIcon icon={faPhone} style={{ marginRight: '10px', color: 'var(--primary-gold)' }} aria-hidden="true" />
               <a href="tel:+919956660600" style={{ color: 'var(--text-light)', textDecoration: 'none' }}>+91 99566 60600</a>
             </p>
             <p style={{ marginBottom: '15px' }}>
-              <FontAwesomeIcon icon={faEnvelope} style={{ marginRight: '10px', color: 'var(--primary-gold)' }} />
+              <FontAwesomeIcon icon={faEnvelope} style={{ marginRight: '10px', color: 'var(--primary-gold)' }} aria-hidden="true" />
               <a href="mailto:Chandusingh6465@gmail.com" style={{ color: 'var(--text-light)', textDecoration: 'none' }}>Chandusingh6465@gmail.com</a>
             </p>
           </FooterSection>
           
-          <FooterSection>
+          <FooterSection id="hours">
             <h3>Opening Hours</h3>
             <p>
-              <FontAwesomeIcon icon={faClock} />
+              <FontAwesomeIcon icon={faClock} style={{ marginRight: '10px' }} aria-hidden="true" />
               Monday - Sunday
             </p>
             <p>
-              <FontAwesomeIcon icon={faClock} />
+              <FontAwesomeIcon icon={faClock} style={{ marginRight: '10px' }} aria-hidden="true" />
               10:00 AM - 9:00 PM
             </p>
             <p>
-              <FontAwesomeIcon icon={faClock} />
+              <FontAwesomeIcon icon={faClock} style={{ marginRight: '10px' }} aria-hidden="true" />
               Food Service: 11:00 AM - 9:00 PM
             </p>
           </FooterSection>
@@ -225,22 +225,22 @@ const Footer = () => {
           <FooterSection>
             <h3>Quick Links</h3>
             <ul>
-              <li><a href="#home">Home</a></li>
-              <li><a href="#menu">Menu</a></li>
-              <li><a href="#about">About Us</a></li>
-              <li><a href="#specials">Special Offers</a></li>
-              <li><a href="#contact">Contact</a></li>
+              <li><a href="#home" aria-label="Go to Home section">Home</a></li>
+              <li><a href="#menu" aria-label="Go to Menu section">Menu</a></li>
+              <li><a href="#about" aria-label="Go to About Us section">About Us</a></li>
+              <li><a href="#specials" aria-label="Go to Special Offers section">Special Offers</a></li>
+              <li><a href="#contact" aria-label="Go to Contact section">Contact</a></li>
             </ul>
           </FooterSection>
           
-          <FooterSection>
+          <FooterSection id="social">
             <h3>Follow Us</h3>
             <p>Stay connected with us on social media for updates and offers.</p>
             <SocialIcons>
-              <a href="https://www.facebook.com/riddhisiddhi.dairy.3?mibextid=wwXIfr" aria-label="Facebook" target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faFacebookF} /></a>
-              <a href="https://www.instagram.com/riddhisiddhidairy?igsh=YzBleWYwZzZmMnd2" aria-label="Instagram" target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faInstagram} /></a>
-              <a href="https://twitter.com/" aria-label="Twitter"><FontAwesomeIcon icon={faTwitter} /></a>
-              <a href="https://youtube.com/" aria-label="YouTube"><FontAwesomeIcon icon={faYoutube} /></a>
+              <a href="https://www.facebook.com/riddhisiddhi.dairy.3?mibextid=wwXIfr" aria-label="Facebook" target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faFacebookF} aria-hidden="true" /></a>
+              <a href="https://www.instagram.com/riddhisiddhidairy?igsh=YzBleWYwZzZmMnd2" aria-label="Instagram" target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faInstagram} aria-hidden="true" /></a>
+              <a href="https://twitter.com/" aria-label="Twitter" target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faTwitter} aria-hidden="true" /></a>
+              <a href="https://youtube.com/" aria-label="YouTube" target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faYoutube} aria-hidden="true" /></a>
             </SocialIcons>
           </FooterSection>
         </FooterContent>

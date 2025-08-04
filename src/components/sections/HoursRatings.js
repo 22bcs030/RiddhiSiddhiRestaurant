@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { FlexContainer, SectionWrapper, Badge, BadgeContainer } from '../../styles/StyledComponents';
+import { SectionWrapper, Badge, BadgeContainer } from '../../styles/StyledComponents';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faStar, faQuoteLeft, faClock, faAward, faCheck } from '@fortawesome/free-solid-svg-icons';
+import { faStar, faQuoteLeft, faAward, faTrash, faExclamationTriangle, faClock, faCheck } from '@fortawesome/free-solid-svg-icons';
+import RestaurantReviewForm from '../comments/RestaurantReviewForm';
 
 const HoursRatingsContainer = styled(SectionWrapper)`
-  background-color: #fff;
+  background-color: #f9f9f9;
   position: relative;
   overflow: hidden;
+  padding: 5rem 0;
   
   &:before {
     content: '';
@@ -22,18 +24,44 @@ const HoursRatingsContainer = styled(SectionWrapper)`
   }
 `;
 
+const ContentWrapper = styled.div`
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 20px;
+`;
+
+const FlexContainer = styled.div`
+  display: flex;
+  gap: ${props => props.gap || '1rem'};
+  
+  @media (max-width: 992px) {
+    flex-direction: ${props => props.mobileDirection || 'row'};
+  }
+`;
+
+const EqualHeightContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  
+  @media (max-width: 992px) {
+    width: 100% !important;
+  }
+`;
+
 const HoursSection = styled.div`
-  flex: 1;
   padding: 2rem;
   border-radius: var(--border-radius);
   background-color: #FFF9F5;
   box-shadow: var(--box-shadow);
+  border-left: 4px solid var(--primary-red);
   
   h3 {
     position: relative;
     color: var(--primary-red);
     padding-bottom: 1rem;
     margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
     
     &:after {
       content: '';
@@ -65,6 +93,36 @@ const HoursSection = styled.div`
       border-radius: 5px;
       margin: 1rem 0;
     }
+  }
+`;
+
+const FormContainer = styled.div`
+  height: 500px;
+  overflow-y: auto;
+  margin-top: 1.5rem;
+  padding-right: 0.5rem;
+  border-radius: var(--border-radius);
+  background-color: #FFF9F5;
+  box-shadow: var(--box-shadow);
+  border-left: 4px solid var(--primary-red);
+  
+  /* Scrollbar styling */
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: var(--primary-gold);
+    border-radius: 10px;
+  }
+  
+  &::-webkit-scrollbar-thumb:hover {
+    background: #d4af37;
   }
 `;
 
@@ -113,6 +171,32 @@ const RatingHeader = styled.div`
   }
 `;
 
+const TestimonialsContainer = styled.div`
+  height: 500px;
+  overflow-y: auto;
+  margin-bottom: 2rem;
+  padding-right: 0.5rem;
+  
+  /* Scrollbar styling */
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: var(--primary-gold);
+    border-radius: 10px;
+  }
+  
+  &::-webkit-scrollbar-thumb:hover {
+    background: #d4af37;
+  }
+`;
+
 const TestimonialCard = styled.div`
   padding: 1.5rem;
   border-radius: var(--border-radius);
@@ -145,6 +229,12 @@ const TestimonialCard = styled.div`
   .testimonial-author {
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    
+    .author-info {
+      display: flex;
+      flex-direction: column;
+    }
     
     .author-name {
       font-weight: 600;
@@ -162,105 +252,261 @@ const TestimonialCard = styled.div`
   }
 `;
 
+const DeleteButton = styled.button`
+  background: none;
+  border: none;
+  color: var(--primary-red);
+  cursor: pointer;
+  opacity: 0.7;
+  transition: var(--transition);
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  font-size: 0.9rem;
+  
+  &:hover {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+`;
+
+const EmptyState = styled.div`
+  text-align: center;
+  padding: 2rem;
+  border: 1px dashed #ccc;
+  border-radius: var(--border-radius);
+  margin: 1rem 0;
+  
+  svg {
+    font-size: 2rem;
+    color: var(--text-gray);
+    margin-bottom: 1rem;
+  }
+  
+  p {
+    color: var(--text-gray);
+  }
+`;
+
 const HoursRatings = () => {
+  const [testimonials, setTestimonials] = useState([]);
+  const [averageRating, setAverageRating] = useState(4.8);
+  const [reviewCount, setReviewCount] = useState('500+');
+  const [deleteConfirm, setDeleteConfirm] = useState(null);
+
+  // Use useMemo to create the defaultTestimonials array that won't change between renders
+  const defaultTestimonials = React.useMemo(() => [
+    {
+      id: 1,
+      name: "Priya Sharma",
+      detail: "Regular Customer",
+      text: "The best Indian sweets I've ever had! Their Gulab Jamun is absolutely divine and the service is always warm and welcoming. A must-visit for anyone with a sweet tooth!",
+      rating: 5,
+      isDefault: true
+    },
+    {
+      id: 2,
+      name: "Rahul Patel",
+      detail: "Food Blogger",
+      text: "Riddhi Siddhi's thali is a complete meal experience. The flavors are authentic, portion size is generous, and everything tastes homemade. Their custom cakes for special occasions are also exceptional!",
+      rating: 5,
+      isDefault: true
+    }
+  ], []);
+
+  const deleteTestimonial = (id) => {
+    // If just clicking delete button first time, ask for confirmation
+    if (deleteConfirm !== id) {
+      setDeleteConfirm(id);
+      return;
+    }
+    
+    // If confirmed, delete the testimonial
+    try {
+      // Get existing testimonials from localStorage
+      const savedTestimonials = localStorage.getItem('testimonials');
+      if (savedTestimonials) {
+        let parsedTestimonials = JSON.parse(savedTestimonials);
+        
+        // Filter out the testimonial to delete
+        parsedTestimonials = parsedTestimonials.filter(item => item.id !== id);
+        
+        // Save back to localStorage
+        localStorage.setItem('testimonials', JSON.stringify(parsedTestimonials));
+        
+        // Update testimonials in state by filtering out the deleted one
+        setTestimonials(prev => prev.filter(item => item.id !== id));
+        
+        // Reset confirmation state
+        setDeleteConfirm(null);
+        
+        // Recalculate average rating
+        updateRatingStatistics(parsedTestimonials);
+      }
+    } catch (error) {
+      console.error("Error deleting testimonial:", error);
+    }
+  };
+  
+  // Helper function to update average rating and count
+  const updateRatingStatistics = (userTestimonials) => {
+    if (userTestimonials && userTestimonials.length > 0) {
+      const totalRating = userTestimonials.reduce((sum, testimonial) => sum + testimonial.rating, 0);
+      const newAverageRating = (totalRating / userTestimonials.length).toFixed(1);
+      setAverageRating(newAverageRating);
+      
+      // Update review count
+      const newCount = 500 + userTestimonials.length;
+      setReviewCount(`${newCount}+`);
+    } else {
+      // If no user testimonials, revert to default values
+      setAverageRating(4.8);
+      setReviewCount('500+');
+    }
+  };
+
+  // Load user testimonials from localStorage on component mount
+  useEffect(() => {
+    try {
+      const savedTestimonials = localStorage.getItem('testimonials');
+      if (savedTestimonials) {
+        const parsedTestimonials = JSON.parse(savedTestimonials);
+        
+        // Combine with default testimonials
+        const allTestimonials = [
+          ...defaultTestimonials,
+          ...parsedTestimonials.map(item => ({ ...item, isUserSubmitted: true }))
+        ];
+        
+        // Show all testimonials, with most recent first
+        setTestimonials(allTestimonials);
+        
+        // Update rating statistics
+        updateRatingStatistics(parsedTestimonials);
+      } else {
+        setTestimonials(defaultTestimonials);
+      }
+    } catch (error) {
+      console.error("Error loading testimonials:", error);
+      setTestimonials(defaultTestimonials);
+    }
+  }, [defaultTestimonials]);
+
   return (
     <HoursRatingsContainer>
-      <div className="container">
+      <ContentWrapper>
         <FlexContainer gap="3rem" mobileDirection="column">
-          <HoursSection>
-            <h3>
-              <FontAwesomeIcon icon={faClock} /> Opening Hours
-            </h3>
-            <div className="hour-row">
-              <span className="day">Monday - Friday</span>
-              <span className="time">10:00 AM - 9:00 PM</span>
-            </div>
-            <div className="hour-row">
-              <span className="day">Saturday - Sunday</span>
-              <span className="time">10:00 AM - 10:00 PM</span>
-            </div>
-            <div className="hour-row highlight">
-              <span className="day">Food Service</span>
-              <span className="time">11:00 AM onwards</span>
-            </div>
-            <p>* Last orders taken 30 minutes before closing time</p>
+          <EqualHeightContainer style={{ width: '50%' }}>
+            <HoursSection>
+              <h3>
+                <FontAwesomeIcon icon={faClock} style={{ marginRight: '10px' }} /> Opening Hours
+              </h3>
+              <div className="hour-row">
+                <span className="day">Monday - Friday</span>
+                <span className="time">10:00 AM - 9:00 PM</span>
+              </div>
+              <div className="hour-row">
+                <span className="day">Saturday - Sunday</span>
+                <span className="time">10:00 AM - 10:00 PM</span>
+              </div>
+              <div className="hour-row highlight">
+                <span className="day">Food Service</span>
+                <span className="time">11:00 AM onwards</span>
+              </div>
+              <p>* Last orders taken 30 minutes before closing time</p>
+              
+              <BadgeContainer>
+                <Badge color="var(--primary-gold)">
+                  <FontAwesomeIcon icon={faCheck} /> Dine-in
+                </Badge>
+                <Badge color="var(--primary-red)" textColor="var(--text-light)">
+                  <FontAwesomeIcon icon={faCheck} /> Takeaway
+                </Badge>
+                <Badge color="var(--primary-purple)" textColor="var(--text-light)">
+                  <FontAwesomeIcon icon={faCheck} /> Delivery
+                </Badge>
+              </BadgeContainer>
+            </HoursSection>
             
-            <BadgeContainer>
-              <Badge color="var(--primary-gold)">
-                <FontAwesomeIcon icon={faCheck} /> Dine-in
-              </Badge>
-              <Badge color="var(--primary-red)" textColor="var(--text-light)">
-                <FontAwesomeIcon icon={faCheck} /> Takeaway
-              </Badge>
-              <Badge color="var(--primary-purple)" textColor="var(--text-light)">
-                <FontAwesomeIcon icon={faCheck} /> Delivery
-              </Badge>
-            </BadgeContainer>
-          </HoursSection>
+            {/* Review Form with fixed height and scroll */}
+            <FormContainer>
+              <RestaurantReviewForm />
+            </FormContainer>
+          </EqualHeightContainer>
           
-          <RatingsSection>
-            <h3>
-              <FontAwesomeIcon icon={faAward} /> Customer Ratings
-            </h3>
-            <RatingHeader>
-              <div className="rating-number">4.8</div>
-              <div>
-                <div className="rating-stars">
-                  <FontAwesomeIcon icon={faStar} />
-                  <FontAwesomeIcon icon={faStar} />
-                  <FontAwesomeIcon icon={faStar} />
-                  <FontAwesomeIcon icon={faStar} />
-                  <FontAwesomeIcon icon={faStar} style={{ opacity: 0.5 }} />
-                </div>
-                <div className="rating-count">Based on 500+ reviews</div>
-              </div>
-            </RatingHeader>
-            
-            <TestimonialCard>
-              <FontAwesomeIcon icon={faQuoteLeft} className="quote-icon" />
-              <p className="testimonial-text">
-                "The best Indian sweets I've ever had! Their Gulab Jamun is absolutely divine and 
-                the service is always warm and welcoming. A must-visit for anyone with a sweet tooth!"
-              </p>
-              <div className="testimonial-author">
+          <EqualHeightContainer style={{ width: '50%' }}>
+            <RatingsSection id="testimonials">
+              <h3>
+                <FontAwesomeIcon icon={faAward} style={{ marginRight: '10px' }} /> Customer Ratings
+              </h3>
+              <RatingHeader>
+                <div className="rating-number">{averageRating}</div>
                 <div>
-                  <p className="author-name">Priya Sharma</p>
-                  <p className="author-detail">Regular Customer</p>
                   <div className="rating-stars">
-                    <FontAwesomeIcon icon={faStar} />
-                    <FontAwesomeIcon icon={faStar} />
-                    <FontAwesomeIcon icon={faStar} />
-                    <FontAwesomeIcon icon={faStar} />
-                    <FontAwesomeIcon icon={faStar} />
+                    {[...Array(5)].map((_, i) => (
+                      <FontAwesomeIcon 
+                        key={i} 
+                        icon={faStar} 
+                        style={{ opacity: i < Math.floor(averageRating) ? 1 : 0.5 }} 
+                      />
+                    ))}
                   </div>
+                  <div className="rating-count">Based on {reviewCount} reviews</div>
                 </div>
-              </div>
-            </TestimonialCard>
-            
-            <TestimonialCard>
-              <FontAwesomeIcon icon={faQuoteLeft} className="quote-icon" />
-              <p className="testimonial-text">
-                "Riddhi Siddhi's thali is a complete meal experience. The flavors are authentic, 
-                portion size is generous, and everything tastes homemade. Their custom cakes for 
-                special occasions are also exceptional!"
-              </p>
-              <div className="testimonial-author">
-                <div>
-                  <p className="author-name">Rahul Patel</p>
-                  <p className="author-detail">Food Blogger</p>
-                  <div className="rating-stars">
-                    <FontAwesomeIcon icon={faStar} />
-                    <FontAwesomeIcon icon={faStar} />
-                    <FontAwesomeIcon icon={faStar} />
-                    <FontAwesomeIcon icon={faStar} />
-                    <FontAwesomeIcon icon={faStar} />
-                  </div>
-                </div>
-              </div>
-            </TestimonialCard>
-          </RatingsSection>
+              </RatingHeader>
+              
+              <TestimonialsContainer>
+                {testimonials.length > 0 ? (
+                  testimonials.map((testimonial) => (
+                    <TestimonialCard key={testimonial.id}>
+                      <FontAwesomeIcon icon={faQuoteLeft} className="quote-icon" />
+                      <p className="testimonial-text">"{testimonial.text}"</p>
+                      <div className="testimonial-author">
+                        <div className="author-info">
+                          <p className="author-name">{testimonial.name}</p>
+                          <p className="author-detail">{testimonial.detail || 'Customer'}</p>
+                          <div className="rating-stars">
+                            {[...Array(5)].map((_, i) => (
+                              <FontAwesomeIcon 
+                                key={i} 
+                                icon={faStar} 
+                                style={{ opacity: i < testimonial.rating ? 1 : 0.5 }} 
+                              />
+                            ))}
+                          </div>
+                          {testimonial.date && <p className="author-detail">Posted on: {testimonial.date}</p>}
+                        </div>
+                        
+                        {/* Show delete button only for user-submitted testimonials */}
+                        {testimonial.isUserSubmitted && (
+                          <DeleteButton 
+                            onClick={() => deleteTestimonial(testimonial.id)}
+                            title={deleteConfirm === testimonial.id ? "Click again to confirm deletion" : "Delete this review"}
+                          >
+                            {deleteConfirm === testimonial.id ? (
+                              <>
+                                <FontAwesomeIcon icon={faExclamationTriangle} style={{ marginRight: '5px' }} />
+                                Confirm
+                              </>
+                            ) : (
+                              <FontAwesomeIcon icon={faTrash} />
+                            )}
+                          </DeleteButton>
+                        )}
+                      </div>
+                    </TestimonialCard>
+                  ))
+                ) : (
+                  <EmptyState>
+                    <FontAwesomeIcon icon={faExclamationTriangle} />
+                    <p>No reviews yet. Be the first to share your experience!</p>
+                  </EmptyState>
+                )}
+              </TestimonialsContainer>
+            </RatingsSection>
+          </EqualHeightContainer>
         </FlexContainer>
-      </div>
+      </ContentWrapper>
     </HoursRatingsContainer>
   );
 };

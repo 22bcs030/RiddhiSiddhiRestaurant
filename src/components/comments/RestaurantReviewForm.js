@@ -1,0 +1,362 @@
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faStar, faUtensils, faCheckCircle, faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
+
+const FormContainer = styled.div`
+  margin-top: 2rem;
+  padding: 2rem;
+  border-radius: var(--border-radius);
+  background-color: #FFF9F5;
+  box-shadow: var(--box-shadow);
+  position: relative;
+  border-left: 4px solid var(--primary-red);
+  
+  &:before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: 20px;
+    right: 20px;
+    height: 10px;
+    border-radius: 5px 5px 0 0;
+    background: linear-gradient(to right, var(--primary-red), var(--primary-gold));
+    opacity: 0.7;
+  }
+`;
+
+const FormTitle = styled.h4`
+  margin-bottom: 1.5rem;
+  color: var(--primary-red);
+  position: relative;
+  padding-bottom: 0.5rem;
+  font-size: 1.4rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  
+  &:after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 80px;
+    height: 3px;
+    background: var(--gradient-primary);
+  }
+`;
+
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+`;
+
+const FormGroup = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+`;
+
+const Input = styled.input`
+  padding: 1rem;
+  border: 1px solid #e0e0e0;
+  border-radius: var(--border-radius);
+  font-family: inherit;
+  background-color: rgba(255, 255, 255, 0.7);
+  transition: all 0.3s ease;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  
+  &:focus {
+    outline: none;
+    border-color: var(--primary-gold);
+    box-shadow: 0 0 0 3px rgba(211, 47, 47, 0.1);
+    background-color: #fff;
+  }
+  
+  &::placeholder {
+    color: #bbb;
+  }
+`;
+
+const TextArea = styled.textarea`
+  padding: 1rem;
+  border: 1px solid #e0e0e0;
+  border-radius: var(--border-radius);
+  font-family: inherit;
+  min-height: 120px;
+  resize: vertical;
+  background-color: rgba(255, 255, 255, 0.7);
+  transition: all 0.3s ease;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  
+  &:focus {
+    outline: none;
+    border-color: var(--primary-gold);
+    box-shadow: 0 0 0 3px rgba(211, 47, 47, 0.1);
+    background-color: #fff;
+  }
+  
+  &::placeholder {
+    color: #bbb;
+  }
+`;
+
+const Label = styled.label`
+  font-weight: 600;
+  color: var(--text-dark);
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  
+  &:after {
+    content: '*';
+    color: var(--primary-red);
+    margin-left: 4px;
+  }
+`;
+
+const RatingContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  background: rgba(255, 255, 255, 0.5);
+  padding: 0.8rem 1rem;
+  border-radius: var(--border-radius);
+`;
+
+const StarRating = styled.div`
+  display: flex;
+  font-size: 1.8rem;
+  color: var(--primary-gold);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    transform: scale(1.05);
+  }
+`;
+
+const SubmitButton = styled.button`
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: var(--border-radius);
+  background: var(--gradient-primary);
+  color: var(--text-light);
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  align-self: flex-start;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 0.5rem;
+  position: relative;
+  overflow: hidden;
+  
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.2);
+    transition: all 0.4s ease;
+  }
+  
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(211, 47, 47, 0.4);
+    
+    &:before {
+      left: 100%;
+    }
+  }
+`;
+
+const Message = styled.div`
+  padding: 1rem;
+  margin-top: 1.5rem;
+  border-radius: var(--border-radius);
+  text-align: center;
+  font-weight: 600;
+  animation: fadeIn 0.5s ease;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  &.success {
+    background-color: rgba(76, 175, 80, 0.15);
+    color: #2E7D32;
+    border-left: 4px solid #4CAF50;
+  }
+  
+  &.error {
+    background-color: rgba(244, 67, 54, 0.15);
+    color: #C62828;
+    border-left: 4px solid #F44336;
+  }
+`;
+
+const RestaurantReviewForm = () => {
+  const [name, setName] = useState('');
+  const [comment, setComment] = useState('');
+  const [rating, setRating] = useState(0);
+  const [hover, setHover] = useState(0);
+  const [status, setStatus] = useState({ show: false, type: '', message: '' });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    
+    // Simple validation
+    if (!name.trim() || !comment.trim() || rating === 0) {
+      setStatus({
+        show: true,
+        type: 'error',
+        message: 'Please fill all fields and provide a rating.'
+      });
+      return;
+    }
+    
+    // Create new testimonial
+    const newTestimonial = {
+      id: Date.now(),
+      name,
+      detail: 'Customer',
+      text: comment,
+      rating,
+      date: new Date().toLocaleDateString()
+    };
+    
+    // Get existing testimonials from localStorage
+    let testimonials = [];
+    try {
+      const savedTestimonials = localStorage.getItem('testimonials');
+      if (savedTestimonials) {
+        testimonials = JSON.parse(savedTestimonials);
+      }
+    } catch (error) {
+      console.error("Error parsing stored testimonials:", error);
+      testimonials = [];
+    }
+    
+    // Add new testimonial
+    testimonials.push(newTestimonial);
+    
+    // Save to localStorage
+    localStorage.setItem('testimonials', JSON.stringify(testimonials));
+    
+    // Reset form
+    setName('');
+    setComment('');
+    setRating(0);
+    
+    // Show success message
+    setStatus({
+      show: true,
+      type: 'success',
+      message: 'Thank you for your feedback! Your review has been submitted.'
+    });
+    
+    // Hide message after 3 seconds
+    setTimeout(() => {
+      setStatus({ show: false, type: '', message: '' });
+      
+      // Reload the page to show the new testimonial
+      window.location.reload();
+    }, 3000);
+  };
+
+  return (
+    <FormContainer>
+      <FormTitle>
+        <FontAwesomeIcon icon={faUtensils} style={{ marginRight: '10px', color: 'var(--primary-gold)' }} />
+        Leave Your Review
+      </FormTitle>
+      <Form onSubmit={handleSubmit}>
+        <FormGroup>
+          <Label htmlFor="name">Your Name</Label>
+          <Input 
+            id="name"
+            type="text" 
+            placeholder="Enter your name" 
+            value={name} 
+            onChange={(e) => setName(e.target.value)} 
+            required 
+          />
+        </FormGroup>
+        
+        <FormGroup>
+          <Label>Your Rating</Label>
+          <RatingContainer>
+            <StarRating>
+              {[...Array(5)].map((_, index) => {
+                const ratingValue = index + 1;
+                return (
+                  <span 
+                    key={index}
+                    onClick={() => setRating(ratingValue)}
+                    onMouseEnter={() => setHover(ratingValue)}
+                    onMouseLeave={() => setHover(0)}
+                  >
+                    <FontAwesomeIcon 
+                      icon={faStar} 
+                      style={{ 
+                        marginRight: '8px',
+                        opacity: ratingValue <= (hover || rating) ? 1 : 0.3,
+                        transform: ratingValue <= (hover || rating) ? 'scale(1.2)' : 'scale(1)',
+                        transition: 'all 0.2s ease'
+                      }}
+                      aria-hidden="true"
+                    />
+                  </span>
+                );
+              })}
+            </StarRating>
+            <span style={{ 
+              fontWeight: '600', 
+              backgroundColor: 'rgba(255,215,0,0.1)', 
+              padding: '4px 12px', 
+              borderRadius: '20px',
+              color: rating > 0 ? 'var(--primary-red)' : 'var(--text-gray)'
+            }}>
+              {rating > 0 ? `${rating} of 5` : 'Select rating'}
+            </span>
+          </RatingContainer>
+        </FormGroup>
+        
+        <FormGroup>
+          <Label htmlFor="comment">Your Review</Label>
+          <TextArea 
+            id="comment"
+            placeholder="Tell us about your experience at Riddhi Siddhi Dairy Sweets and Bakers" 
+            value={comment} 
+            onChange={(e) => setComment(e.target.value)} 
+            required 
+          />
+        </FormGroup>
+        
+        <SubmitButton type="submit">Submit Review</SubmitButton>
+      </Form>
+      
+      {status.show && (
+        <Message className={status.type}>
+          <FontAwesomeIcon 
+            icon={status.type === 'success' ? faCheckCircle : faExclamationCircle} 
+            style={{ marginRight: '10px', fontSize: '1.2rem' }} 
+          />
+          {status.message}
+        </Message>
+      )}
+    </FormContainer>
+  );
+};
+
+export default RestaurantReviewForm;
