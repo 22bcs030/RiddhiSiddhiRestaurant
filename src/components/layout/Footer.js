@@ -202,7 +202,7 @@ const Footer = () => {
             </p>
             <p style={{ marginBottom: '15px' }}>
               <FontAwesomeIcon icon={faEnvelope} style={{ marginRight: '10px', color: 'var(--primary-gold)' }} />
-              <a href="mailto:info@riddhisiddhi.com" style={{ color: 'var(--text-light)', textDecoration: 'none' }}>info@riddhisiddhi.com</a>
+              <a href="mailto:Chandusingh6465@gmail.com" style={{ color: 'var(--text-light)', textDecoration: 'none' }}>Chandusingh6465@gmail.com</a>
             </p>
           </FooterSection>
           
@@ -237,7 +237,7 @@ const Footer = () => {
             <h3>Follow Us</h3>
             <p>Stay connected with us on social media for updates and offers.</p>
             <SocialIcons>
-              <a href="https://facebook.com/" aria-label="Facebook"><FontAwesomeIcon icon={faFacebookF} /></a>
+              <a href="https://www.facebook.com/riddhisiddhi.dairy.3?mibextid=wwXIfr" aria-label="Facebook" target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faFacebookF} /></a>
               <a href="https://www.instagram.com/riddhisiddhidairy?igsh=YzBleWYwZzZmMnd2" aria-label="Instagram" target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faInstagram} /></a>
               <a href="https://twitter.com/" aria-label="Twitter"><FontAwesomeIcon icon={faTwitter} /></a>
               <a href="https://youtube.com/" aria-label="YouTube"><FontAwesomeIcon icon={faYoutube} /></a>

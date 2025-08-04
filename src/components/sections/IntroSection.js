@@ -8,6 +8,13 @@ const IntroContainer = styled(SectionWrapper)`
   position: relative;
   overflow: hidden;
   
+  .container {
+    @media (max-width: 480px) {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+  }
+  
   &:before {
     content: '';
     position: absolute;
@@ -23,13 +30,23 @@ const IntroContainer = styled(SectionWrapper)`
 
 const IntroContent = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4rem;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 3rem;
   align-items: center;
   
   @media (max-width: 992px) {
     grid-template-columns: 1fr;
     gap: 2rem;
+  }
+  
+  @media (max-width: 480px) {
+    gap: 1.5rem;
+    padding: 0 0.5rem;
+  }
+  
+  @media (min-width: 1200px) {
+    max-width: 1100px;
+    margin: 0 auto;
   }
 `;
 
@@ -38,13 +55,36 @@ const IntroText = styled.div`
   
   h2 {
     color: var(--primary-red);
-    margin-bottom: 2rem;
+    margin-bottom: 1.8rem;
+    font-size: 2.5rem;
+    
+    @media (max-width: 768px) {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    @media (max-width: 480px) {
+      font-size: 1.8rem;
+      margin-bottom: 1.2rem;
+    }
   }
   
   p {
-    font-size: 1.1rem;
+    font-size: 1.05rem;
     line-height: 1.8;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.2rem;
+    text-align: justify;
+    
+    /* Style for the single paragraph format */
+    &:only-of-type {
+      margin-bottom: 0;
+      letter-spacing: 0.01em;
+    }
+    
+    @media (max-width: 768px) {
+      font-size: 1rem;
+      line-height: 1.7;
+    }
   }
   
   &:before {
@@ -86,6 +126,18 @@ const ImageContainer = styled.div`
 const Highlight = styled.span`
   color: var(--primary-red);
   font-weight: 600;
+  position: relative;
+  display: inline-block;
+  
+  &:after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--primary-gold), transparent);
+  }
 `;
 
 const IntroSection = () => {
@@ -94,20 +146,16 @@ const IntroSection = () => {
       <div className="container">
         <IntroContent>
           <IntroText>
-            <SectionTitle>Welcome to Riddhi Siddhi Dairy Sweets and Bakers</SectionTitle>
+            <div style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
+              <SectionTitle>Our Story</SectionTitle>
+            </div>
             <p>
-              Step into a world of <Highlight>authentic Indian flavors</Highlight> where tradition meets innovation. 
-              Our chefs bring generations of culinary expertise to create unforgettable dining experiences.
-            </p>
-            <p>
-              From traditional sweets to modern fusion dishes, every bite tells a story of 
-              <Highlight> India's rich culinary heritage</Highlight>. We use only the finest ingredients 
-              to ensure an authentic and memorable dining experience.
-            </p>
-            <p>
-              Whether you're craving our famous sweets, traditional meals, or fast-food favorites, 
-              Riddhi Siddhi offers a taste of India that will transport you to the streets of Mumbai, 
-              the royal kitchens of Rajasthan, and the coastal flavors of Kerala.
+              In 2023, amidst the lively streets of Gola Kauriram Road in Gorakhpur, <Highlight>Riddhi Siddhi Restaurant</Highlight> was born—a dream crafted with love.
+              More than just a place to eat, it's where food is celebrated and every meal carries the blessings of <Highlight>Riddhi</Highlight> (Prosperity) and <Highlight>Siddhi</Highlight> (Perfection).
+              From day one, Riddhi Siddhi became a beloved part of Gorakhpur. Families gather, friends make memories, and guests feel at home. Our warm ambiance and heartfelt hospitality turn each visit into a joyful experience.
+              Blending rich Indian traditions with local ingredients, our kitchen serves everything from aromatic veg biryanis to soulful vegetarian feasts. Flavors here aren't just tasted—they're <Highlight>felt</Highlight>.
+              What truly sets us apart is not just our sweets, bakery items, and food, but the people—the laughter of our guests, the dedication of our team, and the countless moments shared within these walls.
+              At Riddhi Siddhi, every plate tells a story—of flavor, tradition, and <Highlight>Gorakhpur's culinary pride</Highlight>.
             </p>
           </IntroText>
           

@@ -45,6 +45,7 @@ export const SectionTitle = styled.h2`
   margin-bottom: 3rem;
   position: relative;
   display: inline-block;
+  font-size: 2.5rem;
   
   &::after {
     content: '';
@@ -55,6 +56,21 @@ export const SectionTitle = styled.h2`
     width: 80px;
     height: 3px;
     background: var(--gradient-primary);
+  }
+  
+  @media (max-width: 768px) {
+    font-size: 2rem;
+    margin-bottom: 2.5rem;
+  }
+  
+  @media (max-width: 480px) {
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+    
+    &::after {
+      width: 60px;
+      bottom: -8px;
+    }
   }
 `;
 
